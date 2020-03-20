@@ -108,6 +108,10 @@ export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
   });
 }
 
+function changeBackground(color) {
+  document.body.style.background = color;
+}
+
 /**
  * Draw pose keypoints onto a canvas
  */
@@ -121,6 +125,45 @@ export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
 
     const {y, x} = keypoint.position;
     drawPoint(ctx, y * scale, x * scale, 3, color);
+  }
+  if (keypoints[9].score > minConfidence || keypoints[10].score > minConfidence){ // filter out left and right wrists
+    const ysl = keypoints[5].position.y; // shoulder coordinates
+    const xsl = keypoints[5].position.x;
+    const ysr = keypoints[6].position.y;
+    const xsr = keypoints[6].position.x;
+    const dis = Math.abs(xsr - xsl);
+    const buff_mul = 0.2;
+    var r_bound = xsr + dis * buff_mul;
+    if(r_bound >= 600){
+        r_bound = 599;
+    }
+    var l_bound = xsl - dis * buff_mul;
+    if(l_bound <= 0){
+      l_bound = 1;
+    }
+    var lower_bound = 490;
+    if(ysl <= ysr){
+      lower_bound = ysr;
+    }else{
+      lower_bound = ysl;
+    }
+
+    drawPoint(ctx, 490, r_bound, 3, 'red');
+    drawPoint(ctx, 490, l_bound, 3, 'green');
+    drawPoint(ctx, lower_bound, 50, 3, 'blue');
+
+    if((l_bound < keypoints[9].position.x && r_bound > keypoints[9].position.x) || (l_bound < keypoints[10].position.x && r_bound > keypoints[10].position.x))
+    {
+      if(keypoints[9].position.y < lower_bound || keypoints[10].position.y < lower_bound)
+      {
+        changeBackground('red');
+        return true;
+      }
+    }
+    
+  }else{
+    changeBackground('yellow');
+    return false;
   }
 }
 
