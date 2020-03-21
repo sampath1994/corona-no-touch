@@ -88,6 +88,7 @@
         </video>
         <canvas id="output" />
     </div>
+    <h3>Number of face touches: <p id="tcount"></p></h3>
     <div class="footer">
         <div class="footer-text">
             <p>
@@ -101,6 +102,9 @@
         </div>
     </div>
     <script src="camera.js"></script>
+    <script id="worker-code" type="dont/run">
+        setInterval(function() { postMessage(''); }, 100);
+      </script>
 </body>
 
 </html>

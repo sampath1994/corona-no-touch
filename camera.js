@@ -300,6 +300,7 @@ function detectPoseInRealTime(video, net) {
   canvas.width = videoWidth;
   canvas.height = videoHeight;
   var count = 0;
+  var touch_count = 0;
 
   async function poseDetectionFrame() {
     if (guiState.changeToArchitecture) {
@@ -450,16 +451,31 @@ function detectPoseInRealTime(video, net) {
     if(count > 40){
       console.log("Face touch detected!!");
       count = 0;
+      touch_count = touch_count + 1;
+      document.getElementById("tcount").innerHTML = touch_count;
       beep();
     }
 
     // End monitoring code for frames per second
     stats.end();
 
-    requestAnimationFrame(poseDetectionFrame);
+    //requestAnimationFrame(poseDetectionFrame);
   }
 
+  /*setInterval(function(){
   poseDetectionFrame();
+}, 50)*/
+
+
+var blob = new Blob([document.querySelector('#worker-code').textContent]);
+var worker = new Worker(window.URL.createObjectURL(blob));
+worker.onmessage = function() {
+  poseDetectionFrame();
+	//console.log('fps =');
+}
+
+
+
 }
 
 /**
