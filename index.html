@@ -83,22 +83,20 @@
         </div>
         <div class="sk-spinner sk-spinner-pulse"></div>
     </div>
-    <div id='main' style='display:none'>
+    <div id='main' class="boxed" style='float: left'>
         <video id="video" playsinline style="display: none;">
         </video>
         <canvas id="output" />
     </div>
-    <h3>Number of face touches: <p id="tcount"></p></h3>
+    <div class="boxed" style='float: left; padding: 25px 50px;'>
+    <div><h3 style="display: inline;">Number of face touches: </h3><h3 id="tcount" style="display: inline;"></h3></div>
+    <div><h3 style="display: inline;">Ave. Face touchings per min: </h3><h3 id="avcount" style="display: inline;"></h3></div>
+    <div><h3 style="display: inline;">Elapsed time in min: </h3><h3 id="telap" style="display: inline;"></h3></div>
+    </div>
     <div class="footer">
         <div class="footer-text">
             <p>
-                PoseNet runs with either a <strong>single-pose</strong> or <strong>multi-pose</strong> detection
-                algorithm. The single person pose detector is faster and more accurate but requires only one subject
-                present in the image.
-                <br>
-                <br> The <strong>output stride</strong> and <strong>input resolution</strong> have the largest effects
-                on accuracy/speed. A <i>higher</i> output stride results in lower accuracy but higher speed. A
-                <i>higher</i> image scale factor results in higher accuracy but lower speed. </p>
+                s@m</p>
         </div>
     </div>
     <script src="camera.js"></script>

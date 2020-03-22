@@ -301,6 +301,7 @@ function detectPoseInRealTime(video, net) {
   canvas.height = videoHeight;
   var count = 0;
   var touch_count = 0;
+  var startTime = new Date();
 
   async function poseDetectionFrame() {
     if (guiState.changeToArchitecture) {
@@ -447,6 +448,14 @@ function detectPoseInRealTime(video, net) {
       snd.play();
   }
 
+    function per_min(){
+      var endTime = new Date();
+      var timeDiff = endTime - startTime;
+      timeDiff /= 1000*60;
+      var per_min_count = Math.round(touch_count/timeDiff);
+      document.getElementById("avcount").innerHTML = per_min_count;
+      document.getElementById("telap").innerHTML = Math.round(timeDiff*10)/10;
+    }
 
     if(count > 40){
       console.log("Face touch detected!!");
@@ -455,7 +464,7 @@ function detectPoseInRealTime(video, net) {
       document.getElementById("tcount").innerHTML = touch_count;
       beep();
     }
-
+    per_min();
     // End monitoring code for frames per second
     stats.end();
 
