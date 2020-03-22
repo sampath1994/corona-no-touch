@@ -302,6 +302,28 @@ function detectPoseInRealTime(video, net) {
   var count = 0;
   var touch_count = 0;
   var startTime = new Date();
+  var sound_enabled = true;
+  var sensitivity = 40;
+
+  document.getElementById("myCheck").addEventListener("click", myFunction);
+
+  function myFunction(){
+    var chkb = document.getElementById("myCheck");
+    if(chkb.checked == true){
+      sound_enabled = true;
+    }else{
+      sound_enabled = false;
+    }
+  }
+  
+  document.getElementById("myBtn").addEventListener("click", setsen);
+
+  function setsen(){
+    sensitivity = parseInt(document.getElementById("myText").value);
+    if(isNaN(sensitivity)){
+      sensitivity = 40;
+    }
+  }
 
   async function poseDetectionFrame() {
     if (guiState.changeToArchitecture) {
@@ -457,12 +479,14 @@ function detectPoseInRealTime(video, net) {
       document.getElementById("telap").innerHTML = Math.round(timeDiff*10)/10;
     }
 
-    if(count > 40){
+    if(count > sensitivity){
       console.log("Face touch detected!!");
       count = 0;
       touch_count = touch_count + 1;
       document.getElementById("tcount").innerHTML = touch_count;
+      if(sound_enabled == true){
       beep();
+      }
     }
     per_min();
     // End monitoring code for frames per second
